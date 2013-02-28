@@ -1,2 +1,5 @@
-[% USE Dumper %]
-[% Dumper.dump_html(params) %]
+<form action='dns_lookup' method="get">
+Domain: <input type="text" name="domain">
+<input type="submit" value="Submit">
+</form>
+

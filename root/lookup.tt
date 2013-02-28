@@ -1,0 +1,1 @@
+[% answer.name %] [% answer.class %] [% answer.type %] [% answer.address %] [% answer.class %]

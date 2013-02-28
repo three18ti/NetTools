@@ -2,6 +2,8 @@ package NetTools::Controller::Root;
 use Moose;
 use namespace::autoclean;
 
+use Net::DNS;
+
 BEGIN { extends 'Catalyst::Controller' }
 
 #
@@ -30,10 +32,22 @@ sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
     my %params;
 
-    # Hello World
-#    $c->response->body( $c->welcome_message );
-    
     $c->stash (template => 'index.tt', );
+}
+
+sub dns_lookup : Chained PathPart('dns_lookup') {
+    my ($self, $c) = @_;
+    my $domain = $c->request->param( 'domain' );
+
+    return unless $domain;
+
+    my $res = Net::DNS::Resolver->new;
+    my $answer = $res->search($domain);
+    my $rr = $answer->pop('answer');
+    my $ip = $rr->address;
+
+    $c->stash( template=> 'lookup.tt', answer => $rr );
+   
 }
 
 =head2 default
