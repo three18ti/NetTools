@@ -28,10 +28,12 @@ The root page (/)
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
+    my %params;
 
     # Hello World
 #    $c->response->body( $c->welcome_message );
-    $c->stash (template => 'index.tt' );
+    
+    $c->stash (template => 'index.tt', );
 }
 
 =head2 default
