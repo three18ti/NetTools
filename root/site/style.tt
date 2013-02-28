@@ -1,0 +1,5 @@
+<!-- Styles -->
+<link href="[% c.uri_for('/static/bootstrap/css/bootstrap.css') %]" rel="stylesheet">
+<link href="[% c.uri_for('/static/bootstrap/css/bootstrap-responsive.css') %]" rel="stylesheet">
+<link href="[% c.uri_for('/static/css/tablesorter.css') %]" rel="stylesheet">
+<link href="[% c.uri_for('/static/css/style.css') %]" rel="stylesheet">
