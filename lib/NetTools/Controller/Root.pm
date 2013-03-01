@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 with 'NetTools::Vars';
 
-use Net::DNS;
 use Net::ParseWhois;
 
 BEGIN { extends 'Catalyst::Controller' }
