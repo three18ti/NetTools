@@ -2,12 +2,10 @@ package NetTools::Controller::Root;
 use Moose;
 use namespace::autoclean;
 
-with 'NetTools::Vars';
+with 'NetTools::Vars', 'NetTools::Validate';
 
 use Net::DNS::Dig;
 use Net::ParseWhois;
-
-use List::MoreUtils qw(any);
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -50,6 +48,9 @@ sub dns_search : Chained PathPart('dns_search') {
 
     # Set a nice instructional message
     return $c->stash( info_msg => 'Please enter a domain') unless $domain;
+    
+#    return $c->stash( error_msg => 'Please enter a valid domain')
+#        unless $self->is_valid( 'domain' => $domain );
 
     return $c->stash( error_msg => 'Please enter a valid search type' ) 
         unless grep /$search_type/, $self->dns_types;
@@ -80,6 +81,8 @@ sub domain_whois : Chained PathPart('domain_whois') {
     $c->stash( template => 'results/domain_whois.tt', whois => $whois );
 }
 
+
+
 =head2 about
 
 About page
@@ -89,6 +92,17 @@ About page
 sub about : Chained PathPart('about') {
     my ( $self, $c ) = @_;
     $c->stash( template => 'about.tt' );
+}
+
+=head2 contact
+
+Contact Page
+
+=cut
+
+sub contact : Chained PathPart('contact') {
+    my ( $self, $c ) = @_;
+    $c->stash( template => 'contact.tt' );
 }
 
 =head2 default
