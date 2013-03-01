@@ -1,1 +1,18 @@
-[% answer.name %] [% answer.class %] [% answer.type %] [% answer.address %] [% answer.class %]
+<!-- <div class="well"> -->
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                [% FOR column IN columns %]
+                    <th>[% column %]</th>
+                [% END %]
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                [% FOR column IN columns %]
+                    <td>[% answer.$column %]</td>
+                [% END %]
+            </tr>
+        </tbody>
+    </table>
+<!-- <div> -->

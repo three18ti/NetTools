@@ -28,37 +28,48 @@ The root page (/)
 
 =cut
 
+my @dns_types = qw( A MX NS SPF SRV TXT );
+
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
     my %params;
 
-    $c->stash (template => 'index.tt', );
+    $c->stash (template => 'index.tt', dns_types => \@dns_types,);
 }
 
-sub dns_search : Chained PathPart('dns_search') {
+sub dns_search : Chained('/') PathPart('dns_search') {
     my ($self, $c) = @_;
     my $domain = $c->request->param('domain');
+    my $search_type =$c->request->param('search_type');
 
     # set the form as the defualt template
-    $c->stash( template => 'forms/dns_search.tt' );
+    $c->stash( template => 'forms/dns_search.tt', dns_types => \@dns_types );
 
     # Set a nice instructional message
     return $c->stash( info_msg => 'Please enter a domain') unless $domain;
 
     my $res = Net::DNS::Resolver->new;
-    my $answer = $res->search($domain)        
+    my $query = $res->search($domain, $search_type)        
         || return $c->stash( error_msg => 'Please enter a valid domain', );
     
-    my $rr = $answer->pop('answer');
-    my $ip = $rr->address;
+    my $rr = $query->pop('answer');
 
-    $c->stash( template=> 'results/dns_search.tt', answer => $rr );
-   
+    my @columns = qw( address class type name );
+    $c->stash( 
+        template    => 'results/dns_search.tt', 
+        columns     => \@columns,
+        answer      => $rr 
+    );
 }
+
+=head2 about
+
+About page
+
+=cut
 
 sub about : Chained PathPart('about') {
     my ( $self, $c ) = @_;
-
     $c->stash( template => 'about.tt' );
 }
 

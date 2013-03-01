@@ -1,6 +1,11 @@
-    <h3>DNS Lookup</h3>
-        <form action='dns_search' method="get">
-            Domain: <input type="text" name="domain">
-            <input class="btn btn-primary" type="submit" value="Submit">
-        </form>
+<h3>DNS Lookup</h3>
+    <form action='dns_search' class="form-search" method="get">
+        Domain: <input type="text" class="input-medium" name="domain">
+            <select class="span1" name="search_type">
+                [% FOR dns_type IN dns_types %]
+                    <option>[% dns_type %]</option>
+                [% END %]
+            </select>
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
 
