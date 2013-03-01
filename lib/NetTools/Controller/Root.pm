@@ -4,6 +4,7 @@ use namespace::autoclean;
 
 with 'NetTools::Vars';
 
+use Net::DNS::Dig;
 use Net::ParseWhois;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -48,17 +49,13 @@ sub dns_search : Chained PathPart('dns_search') {
     # Set a nice instructional message
     return $c->stash( info_msg => 'Please enter a domain') unless $domain;
 
-    my $res = Net::DNS::Resolver->new;
-    my $query = $res->search($domain, $search_type)        
-        || return $c->stash( error_msg => 'Please enter a valid domain', );
-    
-    my $rr = $query->pop('answer');
+    my $answer = Net::DNS::Dig->new()->for( $domain, $search_type )->sprintf;
 
     my @columns = qw( address class type name );
     $c->stash( 
         template    => 'results/dns_search.tt', 
         columns     => \@columns,
-        answer      => $rr 
+        answer      => $answer 
     );
 }
 

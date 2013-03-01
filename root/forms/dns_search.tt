@@ -7,6 +7,5 @@
                 [% END %]
             </select>
         <input class="btn btn-primary" type="submit" value="Submit">
-        <span class="help-block">Only A record Lookups have been implemented, stay tuned</span>
     </form>
 

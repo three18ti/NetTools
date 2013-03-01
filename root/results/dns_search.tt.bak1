@@ -1,0 +1,21 @@
+[% IF c.request.param('search_type') == 'A' %]
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                [% FOR column IN columns %]
+                    <th>[% column %]</th>
+                [% END %]
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                [% FOR column IN columns %]
+                    <td>[% answer.$column %]</td>
+                [% END %]
+            </tr>
+        </tbody>
+    </table>
+[% ELSE %]
+    <div class="alert alert-info">Sorry, That's not implemented yet</div>    
+    [% INCLUDE 'forms/dns_search.tt' %]
+[% END %]
