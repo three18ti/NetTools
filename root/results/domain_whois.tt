@@ -1,0 +1,32 @@
+<dl class="dl-horizontal">
+    <dt>Registrar</dt>
+        <dr>[% whois.registrar %]</dr>
+    <dt>Domain:</dt>
+        <dr>[% whois.domain %]</dr>
+    <dt>Name:</dt>
+        <dr>[% whois.name %]</dr>
+    <dt>Tag:</dt>
+        <dr>[% whois.tag %]</dr>
+    <dt>Address</dt>
+        [% FOR line IN whois.address %]
+            <dr>[% line %]</dr>
+        [% END %]
+    <dt>Country:</dt>
+        <dr>[% whois.country %]</dr>
+    <dt>Name Servers</dt>
+        [% FOR server IN whois.servers %]
+            [% server.0 %] [% server.1 %]
+        [% END %]
+    [% IF whois.contacts %]
+        <dt>Contacts:</dt>
+            [% FOR t IN whois.contacts.keys.sort %] 
+                <dr>[% t %]:</dr>
+                [% FOR contact IN whois.contacts.$t %]
+                    <dr>[% contact %]</dr>
+                [% END %]
+    [% END %]
+    <dt>Record Created:</dt>
+        <dr>[% whois.record_created %]</dr>
+    <dt>Record Updated:</dt>
+        <dr>[% whois.record_updated %]</dr>
+</dl>

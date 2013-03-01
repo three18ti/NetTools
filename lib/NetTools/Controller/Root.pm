@@ -2,7 +2,10 @@ package NetTools::Controller::Root;
 use Moose;
 use namespace::autoclean;
 
+with 'NetTools::Vars';
+
 use Net::DNS;
+use Net::ParseWhois;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -28,22 +31,20 @@ The root page (/)
 
 =cut
 
-my @dns_types = qw( A MX NS SPF SRV TXT );
-
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
     my %params;
 
-    $c->stash (template => 'index.tt', dns_types => \@dns_types,);
+    $c->stash (template => 'index.tt', dns_types => $self->dns_types,);
 }
 
-sub dns_search : Chained('/') PathPart('dns_search') {
+sub dns_search : Chained PathPart('dns_search') {
     my ($self, $c) = @_;
     my $domain = $c->request->param('domain');
     my $search_type =$c->request->param('search_type');
 
     # set the form as the defualt template
-    $c->stash( template => 'forms/dns_search.tt', dns_types => \@dns_types );
+    $c->stash( template => 'forms/dns_search.tt', dns_types => $self->dns_types );
 
     # Set a nice instructional message
     return $c->stash( info_msg => 'Please enter a domain') unless $domain;
@@ -60,6 +61,22 @@ sub dns_search : Chained('/') PathPart('dns_search') {
         columns     => \@columns,
         answer      => $rr 
     );
+}
+
+sub domain_whois : Chained PathPart('domain_whois') {
+    my ($self, $c) = @_;
+    my $domain = $c->request->param('domain');
+
+    $c->stash( template => 'forms/domain_whois.tt', );
+
+    # Set a nice instructional message
+    return $c->stash( info_msg => 'Please enter a domain', ) unless $domain;
+
+    my $whois = Net::ParseWhois::Domain->new($domain);
+    
+    return $c->stash( error_msg => 'Could not connect to Whois Server' ) unless $whois->ok;
+
+    $c->stash( template => 'results/domain_whois.tt', whois => $whois );
 }
 
 =head2 about
