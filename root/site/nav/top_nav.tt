@@ -6,13 +6,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="[% c.uri_for('/') %]">Project name</a>
+          <a class="brand" href="[% c.uri_for('/') %]">NetTools</a>
           <div class="nav-collapse">
             <ul class="nav">
 
               <li [%- IF template.name.match('^index.tt') -%] class="active" [%- END -%]><a href="[% c.uri_for('/') %]">Home</a></li>
               <li [%- IF template.name.match('^about') -%] class="active" [%- END -%]><a href="[% c.uri_for('/about') %]">About</a></li>
-              <li [%- IF template.name.match('^services') -%] class="active" [%- END -%]><a href="[% c.uri_for('/services') %]">Services</a></li>
               <li [%- IF template.name.match('^contact') -%] class="active" [%- END -%]><a href="[% c.uri_for('/contact') %]">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->

@@ -1,0 +1,6 @@
+    <h3>DNS Lookup</h3>
+        <form action='dns_search' method="get">
+            Domain: <input type="text" name="domain">
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+

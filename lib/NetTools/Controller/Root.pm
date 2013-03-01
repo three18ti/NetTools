@@ -35,24 +35,31 @@ sub index :Path :Args(0) {
     $c->stash (template => 'index.tt', );
 }
 
-sub dns_lookup : Chained PathPart('dns_lookup') {
+sub dns_search : Chained PathPart('dns_search') {
     my ($self, $c) = @_;
-    my $domain = $c->request->param( 'domain' );
+    my $domain = $c->request->param('domain');
 
-    unless ($domain) {
-        return $c->stash( 
-            template => 'index.tt', 
-            error_msg => 'Please enter a valid domain'
-        );
-    }
+    # set the form as the defualt template
+    $c->stash( template => 'forms/dns_search.tt' );
+
+    # Set a nice instructional message
+    return $c->stash( info_msg => 'Please enter a domain') unless $domain;
 
     my $res = Net::DNS::Resolver->new;
-    my $answer = $res->search($domain);
+    my $answer = $res->search($domain)        
+        || return $c->stash( error_msg => 'Please enter a valid domain', );
+    
     my $rr = $answer->pop('answer');
     my $ip = $rr->address;
 
-    $c->stash( template=> 'lookup.tt', answer => $rr );
+    $c->stash( template=> 'results/dns_search.tt', answer => $rr );
    
+}
+
+sub about : Chained PathPart('about') {
+    my ( $self, $c ) = @_;
+
+    $c->stash( template => 'about.tt' );
 }
 
 =head2 default
