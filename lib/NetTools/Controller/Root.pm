@@ -39,7 +39,12 @@ sub dns_lookup : Chained PathPart('dns_lookup') {
     my ($self, $c) = @_;
     my $domain = $c->request->param( 'domain' );
 
-    return unless $domain;
+    unless ($domain) {
+        return $c->stash( 
+            template => 'index.tt', 
+            error_msg => 'Please enter a valid domain'
+        );
+    }
 
     my $res = Net::DNS::Resolver->new;
     my $answer = $res->search($domain);
