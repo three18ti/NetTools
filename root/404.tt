@@ -1,0 +1,9 @@
+<h1>Whoa There</h1>
+
+<p>Something went wrong, and we couldn't find that page.</p>
+
+<p>Why not go back, <a href="[% c.uri_for('/') %]">and try again</a></p>
+
+<img src="[% c.uri_for('/static/images/404.jpg') %]" alt="404 Status Image">
+
+<p>Thanks to <a href="http://www.flickr.com/photos/girliemac/">GerlieMac</a> for the image</p>
