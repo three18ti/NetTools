@@ -7,6 +7,8 @@ with 'NetTools::Vars';
 use Net::DNS::Dig;
 use Net::ParseWhois;
 
+use List::MoreUtils qw(any);
+
 BEGIN { extends 'Catalyst::Controller' }
 
 #
@@ -49,6 +51,9 @@ sub dns_search : Chained PathPart('dns_search') {
     # Set a nice instructional message
     return $c->stash( info_msg => 'Please enter a domain') unless $domain;
 
+    return $c->stash( error_msg => 'Please enter a valid search type' ) 
+        unless grep /$search_type/, $self->dns_types;
+    
     my $answer = Net::DNS::Dig->new()->for( $domain, $search_type )->sprintf;
 
     my @columns = qw( address class type name );

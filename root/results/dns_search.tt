@@ -1,3 +1,8 @@
+<div class="row-fluid">
+    <div class="span5">
+                [% INCLUDE 'forms/dns_search.tt' %]
+    </div><!--/span-->
+</div>
 <pre>
 [% answer %]
 </pre>
