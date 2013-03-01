@@ -6,7 +6,8 @@ use namespace::autoclean;
 has 'dns_types' => (
     is      => 'ro',
     isa     => 'ArrayRef',
-    default => sub { [qw( A MX NS SPF SRV TXT)] },
+#    default => sub { [qw( A MX NS SPF SRV TXT)] },
+    default => sub { [qw( A )] },
 );
 
 #no Moose;

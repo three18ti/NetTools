@@ -21,6 +21,7 @@ use Catalyst qw/
     ConfigLoader
     Static::Simple
 /;
+#    AccessLog
 
 extends 'Catalyst';
 
@@ -41,6 +42,14 @@ __PACKAGE__->config(
     disable_component_resolution_regex_fallback => 1,
     enable_catalyst_header => 1, # Send X-Catalyst header
 );
+
+#__PACKAGE__->config(
+#    'Plugin::AccessLog' => {
+#        formatter   => {
+#            time_zone   => 'America/Denver',
+#        }
+#    },
+#);
 
 # Start the application
 __PACKAGE__->setup();
