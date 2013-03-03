@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+use lib '/home/dnstool/NetTools/lib';
 use lib 'lib';
 use NetTools;
 
