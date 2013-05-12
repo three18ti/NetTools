@@ -7,6 +7,8 @@ with 'NetTools::Vars', 'NetTools::Validate';
 use Net::DNS::Dig;
 use Net::ParseWhois;
 
+use Data::Dumper;
+
 BEGIN { extends 'Catalyst::Controller' }
 
 #
@@ -53,7 +55,8 @@ sub dns_search : Chained PathPart('dns_search') {
 #        unless $self->is_valid( 'domain' => $domain );
 
     return $c->stash( error_msg => 'Please enter a valid search type' ) 
-        unless grep /$search_type/, $self->dns_types;
+#        unless grep /^$search_type$/, @{$self->dns_types};
+        unless grep $search_type eq $_, @{$self->dns_types};
     
     my $answer = Net::DNS::Dig->new()->for( $domain, $search_type )->sprintf;
 
